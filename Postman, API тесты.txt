@@ -1,0 +1,87 @@
+--request POST 'https://reqres.in/api/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "eve.holt@reqres.in",
+    "password": "pistol"
+}'
+--Tests 
+    	//Поместить значение параметра из response.json() в переменную
+    	let jsondata = pm.response.json()
+    	pm.environment.set('Token',jsondata.token)
+--Response body {
+    "id": 4,
+    "token": "QpwL5tke4Pnpja7X4"
+}
+
+	
+--request GET 'https://reqres.in/api/users/2'
+--Tests
+	//Проверка что значение параметра id в ответе не больше 12
+	pm.test('Test_01',function(){
+    	   let jsondata = pm.response.json();
+    	   let data = jsondata.data.id;
+    	   let wer;
+           if (data <= 12)(wer) = true;
+           pm.expect(wer).to.be.true;
+	});
+
+	//Проверка что значение параметра email в ответе имеет любое значение
+	pm.test('Test_02',function(){
+    	   let jsondata = pm.response.json();
+    	   let data = jsondata.data.email;
+           pm.expect(data).to.have.any.keys;
+	});
+--Response body {
+    "data": {
+        "id": 2,
+        "email": "janet.weaver@reqres.in",
+        "first_name": "Janet",
+        "last_name": "Weaver",
+        "avatar": "https://reqres.in/img/faces/2-image.jpg"
+    },
+    "support": {
+        "url": "https://reqres.in/#support-heading",
+        "text": "To keep ReqRes free, contributions towards server costs are appreciated!"
+    }
+}
+
+
+--request PUT 'https://reqres.in/api/users/2' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "First_name":"Danil",
+    "Last_name":"Agliullin"
+}'
+--Tests
+	//Проверка что значение параметра First_name не пустое 
+	pm.test('Test_03',function(){
+	   let jsondata = pm.response.json();
+           let data = jsondata.First_name;
+           pm.expect(data).not.to.be.empty;
+	});
+--Response body {
+    "First_name": "Danil",
+    "Last_name": "Agliullin",
+    "updatedAt": "2022-07-02T18:43:28.724Z"
+}
+
+
+--request OPTIONS 'https://reqres.in/api/users/2'
+--Tests
+	//Проверка что в ответном заголовке Allow-Methods возвращаются ожидаемые значения
+	pm.test('Test_04',function(){
+           let jsondata = pm.response.headers.get('Allow-Methods');
+           let expeced = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+           pm.expect(expected).to.eql(jsondata);
+	});
+
+
+DELETE 'https://reqres.in/api/users/2'
+--Tests
+	//Проверка что возвращается ожидаемый статус код 204
+	pm.test('Test_05',function(){
+	   let ResponseCode = pm.response.code
+	   pm.expect(ResponseCode).to.eql(204)	
+	});
+--Response body {}
+

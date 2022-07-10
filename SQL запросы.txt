@@ -1,0 +1,73 @@
+Допустим существует две таблицы:
+
+1)Таблица "Users", в ней перечислены столбцы: 
+-Id
+-Ctn
+-Email
+-Name
+-Avatar
+
+2)Таблица "Devices", в ней перечислены столбцы:
+-Id
+-UserId
+-Platform
+-AppVersion
+-CurrentlyLogged
+-Vendor
+-Model
+
+Задача_01: Вывести всю информацию из таблицы "Users" по пользователю с Id = 3459
+Запрос: SELECT * FROM Users WHERE Id = 3459
+
+Задача_02: Вывести из таблицы "Devices" уникальные значения поля "Platform"
+Запрос: SELECT DISTINCT Platform FROM Devices
+
+Задача_03: Вывести из таблицы "Users" первые 5 строк 
+Запрос: SELECT TOP(5) * FROM Users или SELECT * FROM Users LIMIT 5
+
+Задача_04: Вывести из таблицы "Users" пользователя с Id = 3459 и Ctn = 79173614034 или пользователя с Id = 1158
+Запрос: SELECT * FROM Users WHERE Id = 3459 and Ctn = 79173614034 or Id = 1158
+
+Задача_05: Вывести из таблицы "Users" имена всех пользователей, у которых Id меньше 110 (включительно)
+Запрос: SELECT Name FROM Users WHERE Id <= 110
+
+Задача_06: Вывести из таблицы "Devices" название всех моделей, которые начинаются на аббривиатуру "SM"
+Запрос: SELECT Model FROM Devices WHERE Model LIKE 'SM%'
+
+Задача_07: Вывести из таблицы "Users" всех пользователей с Id от 150 до 350
+Запрос: SELECT * FROM Users WHERE Id BETWEEN 150 AND 350
+
+Задача_08: Вывести из таблицы "Devices" все поля с UserId (134, 156, 1158, 3459)
+Запрос: SELECT * FROM Devices WHERE UserId in (134, 156, 1158, 3459)
+
+Задача_09: Вывести из таблицы "Users" все поля, где поле "Name" сортируется по возрастанию
+Запрос: SELECT * FROM Users ORDER BY Name
+
+Задача_10: Вывести из таблицы "Users" все поля, где поле "Name" сортируется по убыванию
+Запрос: SELECT * FROM Users ORDER BY Name DESC
+
+Задача_11: Вывести из таблицы "Users" среднее значение Id
+Запрос: SELECT AVG(Id) FROM Users
+
+Задача_12: Вывести из таблицы "Users" сумму значений Id
+Запрос: SELECT SUM(Id) FROM Users
+
+Задача_13: Вывести из таблицы "Users" максимальное значение Id
+Запрос: SELECT MAX(Id) FROM Users
+
+Задача_14: Вывести из таблицы "Users" минимальное значение Id
+Запрос: SELECT MIN(Id) FROM Users
+
+Задача_15: Вывести из таблицы "Users" количество значение Id
+Запрос: SELECT COUNT(Id) FROM Users
+
+Задача_16: Вывести поля "Сtn", "Name", "Avatar", "Platform", "AppVersion", "Model" из двух таблиц в одну, где Id = 3459
+Запрос: SELECT Users.Ctn, Users.Name, Users.Avatar, Devices.Platform, Devices.AppVersion, Devices.Model FROM Users INNER JOIN Devices ON Users.Id = Devices.UserId AND UserId = 3459
+или
+Запрос: SELECT Ctn, Name, Avatar, Platform, AppVersion, Model FROM Users, Devices WHERE Users.Id = Devices.UserId AND UserId = 3459
+
+Задача_17: Обновить в таблице "Users" поле Name у пользователя с Id = 3459
+Запрос: UPDATE Users SET Name = 'Danil' WHERE Id = 3459
+
+Задача_18: Удалить в таблице "Users" пользователя с Id = 3459
+Запрос: DELETE FROM Users WHERE Id = 3459
